@@ -16,11 +16,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.util.*;
 
 @Service
 public class BusStopDetailService {
@@ -84,10 +83,14 @@ public class BusStopDetailService {
                     JSONArray item = response.getJSONArray("item");
                     for(int j=0;j<item.length();j++){
                         JSONObject get = item.getJSONObject(j);
-                        System.out.println("get = " + get);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(new Date());
+                        cal.add(Calendar.MINUTE, get.getInt("arrtime")/60);
+                        cal.add(Calendar.MILLISECOND, get.getInt("arrtime")%60);
+                        DateFormat time = new SimpleDateFormat("hh:mm:ss a");
                         BusStopDetails details = BusStopDetails.builder()
                                 .arrprevstationcnt(get.get("arrprevstationcnt").toString())
-                                .arrtime(LocalDateTime.now().plusSeconds(Long.parseLong(get.get("arrtime").toString())))
+                                .arrtime(time.format(cal.getTime()))
                                 .routeno((get.get("routeno").toString()))
                                 .routetp(get.get("routetp").toString())
                                 .vehicletp(get.get("vehicletp").toString())
