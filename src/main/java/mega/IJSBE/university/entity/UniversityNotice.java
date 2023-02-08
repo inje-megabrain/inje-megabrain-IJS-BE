@@ -10,17 +10,18 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name="university_notice")
+@Builder
 public class UniversityNotice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private Long noticeId;
-    private String title;
-    private String authorNickname;
-    private Date writeAt;
+    private String noticeId; // 작성번호
+    private String title; //제목
+    private String authorNickname; //작성자
+    private Date writeAt; //작성일
 
-    private Enum category;
+    private Enum category; //분류
 
 }
 enum NoticeCategory {
