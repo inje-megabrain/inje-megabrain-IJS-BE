@@ -42,7 +42,7 @@ public class BusStopDetailService {
         LocalDateTime dateTime = LocalDateTime.now();
         System.out.println("dateTime = " + dateTime);
         List<BusStop> busStops = busStopRepository.findAll();
-
+        busStopDetailRepository.deleteAll();
         for(int i =0;i<busStops.size();i++){
             try{
                 StringBuilder builder= new StringBuilder("http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList");
@@ -73,26 +73,33 @@ public class BusStopDetailService {
                 }
                 rd.close();
                 connection.disconnect();
-
                 JSONObject obj = new JSONObject(sb.toString());
-                JSONObject response = obj.getJSONObject("response").getJSONObject("body").getJSONObject("items");
-                JSONArray item = response.getJSONArray("item");
-                for(int j=0;j<item.length();j++){
-                    JSONObject get = item.getJSONObject(j);
-                    System.out.println("get = " + get);
-                    BusStopDetails details = BusStopDetails.builder()
-                            .arrprevstationcnt(get.get("arrprevstationcnt").toString())
-                            .arrtime(Long.valueOf(get.get("arrtime").toString())+Long.valueOf(get.get("arrtime").toString()))
-                            .routeno((get.get("routeno").toString()))
-                            .routetp(get.get("routetp").toString())
-                            .vehicletp(get.get("vehicletp").toString())
-                            .nodeNm(get.get("nodenm").toString())
-                            .nodeId(get.get("nodeid").toString())
-                            .build();
 
-                    System.out.println("busStops.get(i).getNodenm() = " + busStops.get(i).getNodenm());
-                    busStopDetailRepository.save(details);
+                if(obj.getJSONObject("response").getJSONObject("body").get("totalCount").equals(0)){
+                    busStopDetailRepository.deleteAll();
+                    throw new RuntimeException("등록된 버스 정보가 없습니다.");
                 }
+                else{
+                    JSONObject response = obj.getJSONObject("response").getJSONObject("body").getJSONObject("items");
+                    JSONArray item = response.getJSONArray("item");
+                    for(int j=0;j<item.length();j++){
+                        JSONObject get = item.getJSONObject(j);
+                        System.out.println("get = " + get);
+                        BusStopDetails details = BusStopDetails.builder()
+                                .arrprevstationcnt(get.get("arrprevstationcnt").toString())
+                                .arrtime(LocalDateTime.now().plusSeconds(Long.parseLong(get.get("arrtime").toString())))
+                                .routeno((get.get("routeno").toString()))
+                                .routetp(get.get("routetp").toString())
+                                .vehicletp(get.get("vehicletp").toString())
+                                .nodeNm(get.get("nodenm").toString())
+                                .nodeId(get.get("nodeid").toString())
+                                .build();
+
+                        System.out.println("busStops.get(i).getNodenm() = " + busStops.get(i).getNodenm());
+                        busStopDetailRepository.save(details);
+                    }
+                }
+
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -100,7 +107,6 @@ public class BusStopDetailService {
 
     }
     public List<BusStopDetails> findToBusList(String nodeid){
-        System.out.println("busStopDetailRepository.findByNodeId(nodeid) = " + busStopDetailRepository.findByNodeId(nodeid));
         return busStopDetailRepository.findByNodeId(nodeid);
     }
 }

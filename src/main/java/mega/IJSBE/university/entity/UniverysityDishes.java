@@ -21,13 +21,13 @@ public class UniverysityDishes {
     @Id
     private Long id;
     @Column(nullable = true)
-    private String aMenu []; // nullable
+    private String aMenu ; // nullable
 
     @Column(nullable = true)
-    private String bMenu[]; // nullable
+    private String bMenu; // nullable
 
     @Column(nullable = true)
-    private  String cMenu[]; // nullable
+    private  String cMenu; // nullable
 
     private Date provideAt;
 }

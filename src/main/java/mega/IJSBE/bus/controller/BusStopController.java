@@ -26,9 +26,9 @@ public class BusStopController {
     }
     @PostMapping("/busstop/add")
     @Operation(summary = "학교 근처 버스 정류장 저장 api",description = "DB에 저장")
-    public ResponseEntity findToByBusStop() {
+    public ResponseEntity findToByBusStop(@RequestParam("nodeNo")String nodeNo) {
         try{
-            busStopService.addToNearBusStop();
+            busStopService.addToNearBusStop(nodeNo);
             return ResponseEntity.ok().body("저장됨");
         }catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.fillInStackTrace());

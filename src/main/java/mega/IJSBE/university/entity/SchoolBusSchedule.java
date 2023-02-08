@@ -21,4 +21,6 @@ public class SchoolBusSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date departureTime;
+
+    private Boolean toSchool;
 }

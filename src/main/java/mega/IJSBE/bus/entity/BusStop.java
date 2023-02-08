@@ -15,8 +15,6 @@ public class BusStop {
     @Id
     @Column(name="busstop_nodeno")
     private Long nodeno; //버스 정류장 고유 번호
-    @Column(name="busstop_citycode")
-    private String id; //김해시 고유 번호
     @Column(name="busstop_gpslati")
     private String gpslati; //위도
     @Column(name="busstop_gpslong")
@@ -30,8 +28,7 @@ public class BusStop {
 
 
     @Builder
-    public BusStop(String id, String gpslati, String gpslong,String nodenm,String nodeid, Long nodeno){
-        this.id = id;
+    public BusStop(String gpslati, String gpslong,String nodenm,String nodeid, Long nodeno){
         this.gpslati = gpslati;
         this.nodeid = nodeid;
         this.gpslong = gpslong;
