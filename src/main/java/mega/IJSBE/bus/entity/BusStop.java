@@ -28,8 +28,6 @@ public class BusStop {
     @Column(name="busstop_nodeid")
     private String nodeid; //고유 id
 
-    @OneToMany(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
-    private Collection<BusStopDetails> details = new ArrayList<>();
 
     @Builder
     public BusStop(String id, String gpslati, String gpslong,String nodenm,String nodeid, Long nodeno){

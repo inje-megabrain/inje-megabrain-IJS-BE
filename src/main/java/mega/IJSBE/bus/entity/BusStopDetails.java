@@ -20,8 +20,5 @@ public class BusStopDetails {
     private Long arrtime; //도착예정버스 도착예상시간
     private String nodeNm; //정류장 이름
     private String nodeId; //정류장 고유 id
-    @ManyToOne
-    @JoinColumn(name ="busstop_nodeid")
-    private BusStop busStop;
 
 }

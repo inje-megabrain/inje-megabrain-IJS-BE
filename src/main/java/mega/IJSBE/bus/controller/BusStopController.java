@@ -46,7 +46,7 @@ public class BusStopController {
         }
     }
     @GetMapping("/busstop/find/busdetail")
-    @Operation(summary = "버스정류장 상세 조회 api")
+    @Operation(summary = "버스 정류장 상세 조회 api",description = "버스정류장을 상세 조회 하는 api")
     public ResponseEntity findToBusStop(@RequestParam("BusStop_Name")String name){
         try{
            BusStop busStops = busStopService.findToBusStop(name);
@@ -56,17 +56,17 @@ public class BusStopController {
         }
     }
     @GetMapping("/busstop/find/details")
-    @Operation(summary = "버스정류장 상세 도착 정보 api")
+    @Operation(summary = "버스 정류장 도착 정보 api",description = "List형태")
     public ResponseEntity findToBusStopDetails(@RequestParam("node_id")String id){
         try{
-            Collection<BusStopDetails> details = busStopDetailService.findToBusList(id);
+            List<BusStopDetails> details = busStopDetailService.findToBusList(id);
             return ResponseEntity.ok().body(details);
         }catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.fillInStackTrace());
         }
     }
     @PostMapping("/busstop/update")
-    @Operation(summary = "버스정류장 상세 도착 정보 api")
+    @Operation(summary = "버스 도착 정보 auto update", description = "5분 간격 자동 업데이트 됨")
     public ResponseEntity addToBusStopDetails(){
         try{
             busStopDetailService.updateToDetails();

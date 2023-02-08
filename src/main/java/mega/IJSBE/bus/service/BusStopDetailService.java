@@ -89,6 +89,7 @@ public class BusStopDetailService {
                             .nodeNm(get.get("nodenm").toString())
                             .nodeId(get.get("nodeid").toString())
                             .build();
+
                     System.out.println("busStops.get(i).getNodenm() = " + busStops.get(i).getNodenm());
                     busStopDetailRepository.save(details);
                 }
@@ -98,12 +99,8 @@ public class BusStopDetailService {
         }
 
     }
-    public Collection<BusStopDetails> findToBusList(String nodeid){
-        Optional<BusStop> busStop = busStopRepository.findByNodeid(nodeid);
-        System.out.println("busStop = " + busStop.get().getNodeid());
-        busStop .orElseThrow(()->{
-            throw new RuntimeException("해당 버스 정류장이 없습니다.");
-        });
-
+    public List<BusStopDetails> findToBusList(String nodeid){
+        System.out.println("busStopDetailRepository.findByNodeId(nodeid) = " + busStopDetailRepository.findByNodeId(nodeid));
+        return busStopDetailRepository.findByNodeId(nodeid);
     }
 }
