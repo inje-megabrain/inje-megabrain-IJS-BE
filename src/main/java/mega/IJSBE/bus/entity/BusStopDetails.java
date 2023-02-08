@@ -3,7 +3,7 @@ package mega.IJSBE.bus.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter

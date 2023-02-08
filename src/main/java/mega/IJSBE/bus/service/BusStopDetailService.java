@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -83,14 +84,13 @@ public class BusStopDetailService {
                     JSONArray item = response.getJSONArray("item");
                     for(int j=0;j<item.length();j++){
                         JSONObject get = item.getJSONObject(j);
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(new Date());
-                        cal.add(Calendar.MINUTE, get.getInt("arrtime")/60);
-                        cal.add(Calendar.MILLISECOND, get.getInt("arrtime")%60);
-                        DateFormat time = new SimpleDateFormat("hh:mm:ss a");
+                        System.out.println("LocalDateTime.now() = " + LocalDateTime.now());
+                        LocalDateTime now = LocalDateTime.now().plusSeconds(get.getInt("arrtime")%60);
+                        now.plusMinutes(get.getInt("arrtime")/60);
+                       
                         BusStopDetails details = BusStopDetails.builder()
                                 .arrprevstationcnt(get.get("arrprevstationcnt").toString())
-                                .arrtime(time.format(cal.getTime()))
+                                .arrtime(now.toString())
                                 .routeno((get.get("routeno").toString()))
                                 .routetp(get.get("routetp").toString())
                                 .vehicletp(get.get("vehicletp").toString())
@@ -98,7 +98,6 @@ public class BusStopDetailService {
                                 .nodeId(get.get("nodeid").toString())
                                 .build();
 
-                        System.out.println("busStops.get(i).getNodenm() = " + busStops.get(i).getNodenm());
                         busStopDetailRepository.save(details);
                     }
                 }

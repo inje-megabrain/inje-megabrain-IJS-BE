@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 public class UniversityNotice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(unique = true)
     private String noticeId; // 작성번호
