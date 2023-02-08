@@ -9,8 +9,3 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://3.38.102.66:5432/ijs_server
       SPRING_DATASOURCE_USERNAME: "ijs_user"
       SPRING_DATASOURCE_PASSWORD: "mega123!@#"
-  selenium:
-    shm_size: '3gb'
-    container_name: selenium
-    hostname: selenium
-    image: selenium/standalone-chrome-debug
