@@ -2,9 +2,10 @@ package mega.IJSBE.bus.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +27,9 @@ public class BusStop {
 
     @Column(name="busstop_nodeid")
     private String nodeid; //고유 id
+
+    @OneToMany(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    private Collection<BusStopDetails> details = new ArrayList<>();
 
     @Builder
     public BusStop(String id, String gpslati, String gpslong,String nodenm,String nodeid, Long nodeno){

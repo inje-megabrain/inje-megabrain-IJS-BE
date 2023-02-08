@@ -70,7 +70,6 @@ public class BusStopService {
          JSONArray item = response.getJSONArray("item");
          for(int i=0;i<item.length();i++){
              JSONObject get = item.getJSONObject(i);
-             System.out.println("get = " + get);
              BusStop busStop = new BusStop(
                      get.get("citycode").toString(),
                      get.get("gpslati").toString(),
