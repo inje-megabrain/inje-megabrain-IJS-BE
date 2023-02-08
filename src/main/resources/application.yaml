@@ -1,0 +1,10 @@
+spring:
+  config:
+    import:
+      - application-psql.yaml
+      - application-tago.yaml
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    async:
+      request-timeout: 100000
