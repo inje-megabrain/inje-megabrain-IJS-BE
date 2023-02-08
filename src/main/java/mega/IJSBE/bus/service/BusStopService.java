@@ -16,9 +16,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class BusService {
+public class BusStopService {
     @Autowired
     private final BusStopRepository busStopRepository;
     @Value("${spring.tago.key}")
@@ -28,12 +29,12 @@ public class BusService {
     @Value("${spring.tago.gpsLong}")
     private String gpsLong;
 
-    public BusService(BusStopRepository busStopRepository) {
+    public BusStopService(BusStopRepository busStopRepository) {
         this.busStopRepository = busStopRepository;
     }
 
-    public List<BusStop> findToNearBusStop() {
-        ArrayList<BusStop> list = new ArrayList<BusStop>();
+    /**************** 버스 정류장 DB 저장 서비스 *******************/
+    public void addToNearBusStop() {
      try{
          StringBuilder builder= new StringBuilder("http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList");
          builder.append("?"+ URLEncoder.encode("serviceKey","UTF-8")+"="+serviceKey);
@@ -42,44 +43,68 @@ public class BusService {
          builder.append("&"+ URLEncoder.encode("_type","UTF-8")+"=json");
          builder.append("&"+ URLEncoder.encode("gpsLati","UTF-8")+"="+gpsLati);
          builder.append("&"+ URLEncoder.encode("gpsLong","UTF-8")+"="+gpsLong);
-         System.out.println("builder = " + builder);
+         
          URL url = new URL(builder.toString());
          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
          connection.setRequestMethod("GET");
          connection.setRequestProperty("Content-type", "application/json");
+         
         BufferedReader rd;
          if(connection.getResponseCode() >= 200 && connection.getResponseCode() <= 300) {
              rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
          } else {
              rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
          }
+         
          StringBuilder sb = new StringBuilder();
          String line;
+         
          while((line = rd.readLine())!=null){
              sb.append(line);
          }
          rd.close();
          connection.disconnect();
+         
          JSONObject obj = new JSONObject(sb.toString());
          JSONObject response = obj.getJSONObject("response").getJSONObject("body").getJSONObject("items");
          JSONArray item = response.getJSONArray("item");
          for(int i=0;i<item.length();i++){
              JSONObject get = item.getJSONObject(i);
-             BusStop busStop = BusStop.builder()
-                     .id(Long.valueOf(get.get("citycode").toString()))
-                     .gpslati(get.get("gpslati").toString())
-                     .gpslong(get.get("gpslong").toString())
-                     .nodenm(get.get("nodenm").toString())
-                     .nodeno(get.get("nodeno").toString())
-                     .nodeid(get.get("nodeid").toString())
-                     .build();
-             list.add(busStop);
+             System.out.println("get = " + get);
+             BusStop busStop = new BusStop(
+                     get.get("citycode").toString(),
+                     get.get("gpslati").toString(),
+                     get.get("gpslong").toString(),
+                     get.get("nodenm").toString(),
+                     get.get("nodeid").toString(),
+                     Long.valueOf(get.get("nodeno").toString())
+             );
              busStopRepository.save(busStop);
-
          }
     } catch (Exception e) {
         e.printStackTrace();
     }
-     return list;
-    }
+
  }
+ /**************** 버스 정류장 전체 조회 서비스 *******************/
+    public List<BusStop> findAllBusStop(){
+        List<BusStop> busStops =busStopRepository.findAll();
+        return busStops;
+    }
+    /**************** 버스 정류장 상세 조회 서비스 *******************/
+    public BusStop findToBusStop(String nodeid){
+        Optional<BusStop> busStop = busStopRepository.findByNodeid(nodeid);
+        busStop .orElseThrow(()->{
+            throw new RuntimeException("해당 버스 정류장이 없습니다.");
+        });
+        BusStop busStops = BusStop.builder()
+                .id(busStop.get().getId())
+                .gpslati(busStop.get().getGpslati())
+                .gpslong(busStop.get().getGpslong())
+                .nodeid(busStop.get().getNodeid())
+                .nodenm(busStop.get().getNodenm())
+                .nodeno(busStop.get().getNodeno())
+                .build();
+        return busStops;
+    }
+}

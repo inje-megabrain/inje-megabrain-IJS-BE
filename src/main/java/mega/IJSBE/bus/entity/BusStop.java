@@ -9,13 +9,13 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 public class BusStop {
     @Id
+    @Column(name="busstop_nodeno")
+    private Long nodeno; //버스 정류장 고유 번호
     @Column(name="busstop_citycode")
-    private Long id;
+    private String id; //김해시 고유 번호
     @Column(name="busstop_gpslati")
     private String gpslati; //위도
     @Column(name="busstop_gpslong")
@@ -27,6 +27,13 @@ public class BusStop {
     @Column(name="busstop_nodeid")
     private String nodeid; //고유 id
 
-    @Column(name="busstop_nodeno")
-    private String nodeno; //고유 넘버
+    @Builder
+    public BusStop(String id, String gpslati, String gpslong,String nodenm,String nodeid, Long nodeno){
+        this.id = id;
+        this.gpslati = gpslati;
+        this.nodeid = nodeid;
+        this.gpslong = gpslong;
+        this. nodenm = nodenm;
+        this.nodeno = nodeno;
+    }
 }
