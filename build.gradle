@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0' // Swagger3
 	implementation group: 'org.json', name: 'json', version: '20220924' //json
+	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.3.0' //crawing
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
