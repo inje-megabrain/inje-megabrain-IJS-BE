@@ -1,1 +1,9 @@
-
+spring:
+  config:
+    import:
+      - application-psql.yml
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    async:
+      request-timeout: 100000
