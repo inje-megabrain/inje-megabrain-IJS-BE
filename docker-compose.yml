@@ -6,7 +6,7 @@ services:
       - "18800:8080"
     restart: always
     environment:
-      SPRING_DATASOURCE_URL: jjdbc:postgresql://3.38.102.66:5432/ijs_server
+      SPRING_DATASOURCE_URL: jdbc:postgresql://3.38.102.66:5432/ijs_server
       SPRING_DATASOURCE_USERNAME: "ijs_user"
       SPRING_DATASOURCE_PASSWORD: "mega123!@#"
 
