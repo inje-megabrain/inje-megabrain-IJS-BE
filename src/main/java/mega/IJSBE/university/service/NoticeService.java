@@ -21,7 +21,7 @@ import java.util.List;
 public class NoticeService {
     @PostConstruct
     public void getNotice() throws InterruptedException, IOException, ParseException {
-        System.setProperty("Webdriver.chrome.driver","/usr/lib/chromium-browser/chromedriver.exe");
+        System.setProperty("Webdriver.chrome.driver","/usr/bin/chromedriver");
         WebDriver driver = new ChromeDriver();
 
         ChromeOptions options = new ChromeOptions();
