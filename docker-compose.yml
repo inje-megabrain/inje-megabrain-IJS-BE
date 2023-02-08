@@ -1,7 +1,7 @@
 version: '3'
 services:
   IJS-BE:
-    image: IJS-BE:1.0.1
+    image: ijs-be:1.0.1
     ports:
       - "18800:8080"
     restart: always
