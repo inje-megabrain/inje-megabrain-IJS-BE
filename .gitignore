@@ -25,7 +25,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
+src/main/java/mega/IJSBE/university/service/NoticeService.java
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
