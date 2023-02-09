@@ -24,7 +24,7 @@ public class DishesService {
     public List<UniverysityDishes> findToDish(){
         List<UniverysityDishes> dishes = dishesRepository.findAll(Sort.by("ProvideAt").ascending());
         System.out.println("dishes = " + dishes);
-        
+
         return dishes;
     }
 }
