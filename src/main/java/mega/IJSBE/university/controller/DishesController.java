@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class DishesController {
@@ -22,7 +24,7 @@ public class DishesController {
     @Operation(summary = "today 학식 찾기 API",description = "현재 날짜와 비교해서 같은 학식만 리턴")
     public ResponseEntity findTodayDish(){
         try{
-            UniverysityDishes dishe = dishesService.findToDish();
+            List<UniverysityDishes> dishe = dishesService.findToDish();
             return ResponseEntity.ok().body(dishe);
         }catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.fillInStackTrace());

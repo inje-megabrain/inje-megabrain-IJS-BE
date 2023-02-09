@@ -20,16 +20,8 @@ public class DishesService {
         this.dishesRepository = dishesRepository;
     }
     /*********** 오늘의 학식을 찾아서 리턴 *************/
-    public UniverysityDishes findToDish(){
+    public List<UniverysityDishes> findToDish(){
         List<UniverysityDishes> dishes = dishesRepository.findAll();
-        UniverysityDishes dish =null;
-        for(UniverysityDishes i : dishes){
-            LocalDate end = LocalDate.ofInstant(i.getProvideAt().toInstant(), ZoneId.systemDefault());
-            int time = end.compareTo(LocalDate.now());
-            if(time==0){
-                dish=i;
-            }
-        }
-        return dish;
+        return dishes;
     }
 }

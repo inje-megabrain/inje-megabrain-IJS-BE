@@ -1,5 +1,6 @@
 package mega.IJSBE.university.service;
 
+import mega.IJSBE.university.entity.NoticeCategory;
 import mega.IJSBE.university.entity.UniversityNotice;
 import mega.IJSBE.university.repository.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,8 @@ public class NoticeService {
     }
 
     public List<UniversityNotice> findToNotice(){
-       /* List<UniversityNotice> notices = noticeRepository.findAll();
-        System.out.println("notices = " + notices);
-        return notices;*/
-        return null;
+        List<UniversityNotice> notices = noticeRepository.findByCategory(NoticeCategory.valueOf("컴공"));
+        System.out.println("notices = " + NoticeCategory.CS);
+        return notices;
     }
 }
