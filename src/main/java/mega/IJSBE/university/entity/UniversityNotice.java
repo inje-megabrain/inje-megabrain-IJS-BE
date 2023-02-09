@@ -20,8 +20,7 @@ public class UniversityNotice {
     private String title; //제목
     private String authorNickname; //작성자
     private Date writeAt; //작성일
-    @Enumerated(EnumType.STRING)
-    private NoticeCategory category; //분류
+    private String category; //분류
 
 }
 

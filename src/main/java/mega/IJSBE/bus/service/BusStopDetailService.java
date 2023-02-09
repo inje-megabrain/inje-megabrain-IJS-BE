@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@Service
+@Service @EnableScheduling
 public class BusStopDetailService {
     @Autowired
     private final BusStopRepository busStopRepository;
@@ -37,7 +39,7 @@ public class BusStopDetailService {
         this.busStopRepository = busStopRepository;
         this.busStopDetailRepository = busStopDetailRepository;
     }
-    @Scheduled(fixedDelay=300000) //5분마다 실행
+    @Scheduled(cron = "0/300 * * * * *")
     public void updateToDetails(){
         LocalDateTime dateTime = LocalDateTime.now();
         System.out.println("dateTime = " + dateTime);
