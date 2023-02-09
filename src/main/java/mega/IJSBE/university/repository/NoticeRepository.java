@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<UniversityNotice,Long> {
+    List<UniversityNotice> findByCategory(String category);
 }
