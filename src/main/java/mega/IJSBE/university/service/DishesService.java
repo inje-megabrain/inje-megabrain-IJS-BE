@@ -3,6 +3,7 @@ package mega.IJSBE.university.service;
 import mega.IJSBE.university.entity.UniverysityDishes;
 import mega.IJSBE.university.repository.DishesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,7 +22,9 @@ public class DishesService {
     }
     /*********** 오늘의 학식을 찾아서 리턴 *************/
     public List<UniverysityDishes> findToDish(){
-        List<UniverysityDishes> dishes = dishesRepository.findAll();
+        List<UniverysityDishes> dishes = dishesRepository.findAll(Sort.by("ProvideAt").ascending());
+        System.out.println("dishes = " + dishes);
+        
         return dishes;
     }
 }
