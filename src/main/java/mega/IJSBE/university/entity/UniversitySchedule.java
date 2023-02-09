@@ -18,6 +18,7 @@ public class UniversitySchedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    private Date startAt;
     private Date endAt;
     @Column(columnDefinition = "boolean default false")
     private Boolean isStartDate;
