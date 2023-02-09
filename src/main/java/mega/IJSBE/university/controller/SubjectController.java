@@ -21,7 +21,7 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @GetMapping("/find/subject")
+    @GetMapping("/subject/find")
     @Operation(summary = "비교과 프로그램 조회 api",description = "contentUrl = 이미지, endAt= 마감날짜")
     public ResponseEntity findToSub(){
         try{

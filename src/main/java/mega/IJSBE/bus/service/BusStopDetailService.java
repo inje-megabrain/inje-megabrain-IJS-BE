@@ -85,9 +85,12 @@ public class BusStopDetailService {
                     for(int j=0;j<item.length();j++){
                         JSONObject get = item.getJSONObject(j);
                         System.out.println("LocalDateTime.now() = " + LocalDateTime.now());
+                        int min = get.getInt("arrtime")/60;
+                        int sec = min%60;
                         LocalDateTime now = LocalDateTime.now().plusSeconds(get.getInt("arrtime")%60);
                         now.plusMinutes(get.getInt("arrtime")/60);
-                       
+                        System.out.println("get.getInt(\"arrtime\")/60 = " + get.getInt("arrtime"));
+                        now.atZone(ZoneId.of("+02:00"));
                         BusStopDetails details = BusStopDetails.builder()
                                 .arrprevstationcnt(get.get("arrprevstationcnt").toString())
                                 .arrtime(now.toString())

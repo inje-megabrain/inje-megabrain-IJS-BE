@@ -5,6 +5,7 @@ import mega.IJSBE.university.repository.NonSubjectsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -23,12 +24,12 @@ public class SubjectService {
         List<UniversityNonsubject> sub = nonSubjectsRepository.findAll();
         List<UniversityNonsubject> list = new ArrayList<>();
         for(UniversityNonsubject i : sub){
-            LocalDateTime end = LocalDateTime.ofInstant(i.getEndAt().toInstant(), ZoneId.systemDefault());
-            int time = LocalDateTime.now().compareTo(end);
+            LocalDate end = LocalDate.ofInstant(i.getEndAt().toInstant(), ZoneId.systemDefault());
+            int time = end.compareTo(LocalDate.now());
             if(time == 0){
                 list.add(i);
             }
-            else if(time<0){
+            else if(time>0){
                 list.add(i);
             }
         }
